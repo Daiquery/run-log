@@ -1,0 +1,60 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Date</th>
+			<th scope="col">Distance</th>
+			<th scope="col">Time</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<!-- TODO -DBURNEY - Move Table Row to component -1/25/2021 -->
+		<tr *ngFor="let log of runLogs; index as i; trackBy: trackByFn">
+			<th scope="row">{{log.id}}</th>
+			<td>{{log.date}}</td>
+			<td>{{log.distance}}</td>
+			<td>{{log.time}}</td>
+			<td><button type="button" class="btn btn-danger btn-sm "(click)="removeEntry(log.id)">Delete</button></td>
+			<td>
+				<ng-template #content let-modal>
+					<div class="modal-header">
+						<h4 class="modal-title" id="modal-basic-title">Edit Log</h4>
+						<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+					</div>
+					<div class="modal-body">
+						<form [formGroup]="editLogForm">
+							<div class="form-group">
+								<label for="date">Date</label>
+								<div class="input-group">
+									<input id="date" class="form-control" formControlName="date">
+                </div>
+								</div>
+								<div class="form-group">
+									<label for="distance">Distance</label>
+									<div class="input-group">
+										<input id="distance" formControlName="distance" class="form-control" placeholder="1.0">
+                    </div>
+									</div>
+									<div class="form-group">
+										<label for="time">Time</label>
+										<div class="input-group">
+											<input id="time" formControlName="time" class="form-control" placeholder="15:53">
+                    </div>
+										</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-dark" (click)="updateEntry(currentLog.id)">Update</button>
+					</div>
+				</ng-template>
+
+				<button type="button" class="btn btn-primary btn-sm "(click)="openEditModal(content, log.id)">Edit</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
