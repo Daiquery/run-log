@@ -74,4 +74,12 @@ export class TableComponent {
 
     // close modalService
   }
+
+  removeEntry(id) {
+    this.runLogs = [...this.runLogs.filter(item => item.id !== id)];
+  }
+
+  createEntry(content, newLog) {
+   // to-do
+  }
 }
