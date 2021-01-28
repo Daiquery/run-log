@@ -30,7 +30,7 @@ export class TableRowComponent implements OnInit {
   }
 
   removeEntry(id) {
-    console.log("Before: " + this.runLogs);
+    // console.log("Before: " + this.runLogs);
 
     // this.runLogs = [...this.runLogs.filter(item => item.id !== id)];
 

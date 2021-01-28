@@ -19,11 +19,7 @@ export class TableComponent {
   editLogForm: FormGroup;
   currentLog: Run;
 
-  constructor(
-    private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
-    private fb: FormBuilder
-  ) {}
+  constructor(private modalService: NgbModal, private fb: FormBuilder) {}
 
   ngOnInit() {}
 
@@ -42,7 +38,26 @@ export class TableComponent {
     });
 
     // open the modal
-    this.modalService.open(content);
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        result => {
+          const filteredArray = this.runLogs.filter(
+            log => log.id !== this.currentLog.id
+          );
+
+          this.runLogs = [...filteredArray, this.editLogForm.value]
+            .sort(function(a, b) {
+              return -(a.id - b.id || a.name.localeCompare(b.name));
+            })
+            .reverse();
+
+          // debugger;
+        },
+        reason => {
+          // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
 
     // capture form data
 
@@ -58,6 +73,5 @@ export class TableComponent {
     this.runLogs = [...this.runLogs, { ...updatedEntryObj }];
 
     // close modalService
-    this.activeModal.close(this.runLogs);
   }
 }
