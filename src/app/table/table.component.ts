@@ -17,7 +17,9 @@ export class TableComponent {
   name = "Table";
   runLogs = RUNS;
   editLogForm: FormGroup;
+  newLogForm: FormGroup;
   currentLog: Run;
+  newLog: Run;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder) {}
 
@@ -79,7 +81,30 @@ export class TableComponent {
     this.runLogs = [...this.runLogs.filter(item => item.id !== id)];
   }
 
-  createEntry(content, newLog) {
-   // to-do
-  }
+  createEntry(createForm, newLog) {
+    const lastItem = this.runLogs[this.runLogs.length - 1];
+
+    let newId = new String(parseInt(lastItem.id) + 1);
+
+    this.newLogForm = this.fb.group({
+      id: newId,
+      date: "",
+      distance: "",
+      time: ""
+    });
+
+    // open the modal
+    this.modalService
+      .open(createForm, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        result => 
+        {
+          this.runLogs = [...this.runLogs, this.newLogForm.value]
+            .sort(function(a, b) {
+              return -(a.id - b.id || a.name.localeCompare(b.name));
+            })
+            .reverse();
+        });      
+
+}
 }

@@ -11,6 +11,8 @@
 	</thead>
 	<tbody>
 
+
+
 		<!-- TODO -DBURNEY - Move Table Row to component -1/25/2021 -->
 		<tr *ngFor="let log of runLogs; index as i; trackBy: trackByFn">
 			<th scope="row">{{log.id}}</th>
@@ -53,9 +55,44 @@
 					</div>
 				</ng-template>
 
+
 				<button type="button" class="btn btn-primary btn-sm "(click)="openEditModal(content, log.id)">Edit</button>
 			</td>
 		</tr>
 	</tbody>
-   <button type="button" class="btn btn-primary" (click)="createEntry(content)">+</button>
+	<button type="button" class="btn btn-primary" (click)="createEntry(createForm)">+</button>
+
+	<ng-template #createForm let-modal>
+		<div class="modal-header">
+			<h4 class="modal-title" id="modal-basic-title">Create Log</h4>
+			<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+		</div>
+		<div class="modal-body">
+			<form [formGroup]="newLogForm">
+				<div class="form-group">
+					<label for="date">Date</label>
+					<div class="input-group">
+						<input id="date" class="form-control" formControlName="date">
+                </div>
+					</div>
+					<div class="form-group">
+						<label for="distance">Distance</label>
+						<div class="input-group">
+							<input id="distance" formControlName="distance" class="form-control" type="number" placeholder="">
+                    </div>
+						</div>
+						<div class="form-group">
+							<label for="time">Time</label>
+							<div class="input-group">
+								<input id="time" formControlName="time" class="form-control" placeholder="">
+                    </div>
+							</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Create</button>
+		</div>
+	</ng-template>
 </table>
